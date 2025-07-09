@@ -1,0 +1,139 @@
+{
+    "port": 5555,
+    "protocol": "http",
+    "name": "Library API",
+    "recordRequests": true,
+    "stubs": [
+        {
+            "responses": [
+                {
+                    "is": {
+                        "statusCode": 201,
+                        "body": {
+                            "id": 1,
+                            "message": "Book successfully added",
+                            "isbn": "9781476787855",
+                            "aisle": 1,
+                            "author": {
+                                "id": 1,
+                                "name": "Ernest Hemingway"
+                            }
+                        },
+                        "headers": {
+                            "Content-Type": "application/json"
+                        }
+                    }
+                }
+            ],
+            "predicates": [
+                {
+                    "equals": {
+                        "method": "POST",
+                        "path": "/book",
+                        "headers": {
+                            "Content-Type": "application/json"
+                        },
+                        "body": {
+                            "book_name": "The Old Man and the Sea",
+                            "aisle": 1,
+                            "isbn": "9781476787855",
+                            "authorId": 1
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "responses": [
+                {
+                    "is": {
+                        "statusCode": 200,
+                        "body": {
+                            "book_name": "The Old Man and the Sea",
+                            "id": 1,
+                            "isbn": "9781476787855",
+                            "aisle": 2,
+                            "author": {
+                                "id": 1,
+                                "author_name": "Ernest Hemingway"
+                            }
+                        },
+                        "headers": {
+                            "Content-Type": "application/json"
+                        }
+                    }
+                }
+            ],
+            "predicates": [
+                {
+                    "equals": {
+                        "method": "PUT",
+                        "path": "/book/1",
+                        "headers": {
+                            "Content-Type": "application/json"
+                        },
+                        "body": {
+                            "book_name": "The Old Man and the Sea",
+                            "aisle": 2,
+                            "isbn": "9781476787855",
+                            "authorId": 1
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "responses": [
+                {
+                    "is": {
+                        "statusCode": 200,
+                        "body": {
+                            "message": "Book deleted successfully"
+                        },
+                        "headers": {
+                            "Content-Type": "application/json"
+                        }
+                    }
+                }
+            ],
+            "predicates": [
+                {
+                    "equals": {
+                        "method": "DELETE",
+                        "path": "/book/1"
+                    }
+                }
+            ]
+        },
+        {
+            "responses": [
+                {
+                    "is": {
+                        "statusCode": 200,
+                        "body": {
+                            "book_name": "The Old Man and the Sea",
+                            "id": 1,
+                            "isbn": "9781476787855",
+                            "aisle": 2,
+                            "author": {
+                                "id": 1,
+                                "author_name": "Ernest Hemingway"
+                            }
+                        },
+                        "headers": {
+                            "Content-Type": "application/json"
+                        }
+                    }
+                }
+            ],
+            "predicates": [
+                {
+                    "equals": {
+                        "method": "GET",
+                        "path": "/book/1"
+                    }
+                }
+            ]
+        }
+    ]
+}

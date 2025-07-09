@@ -9,6 +9,10 @@ import org.junit.runner.RunWith;
     features = "src/test/java/io/github/santiago120600/features",
     plugin = {
         "pretty",
+        "summary",
+        "html:target/report/cucumber-reports.html",
+        "json:target/report/cucumber.json",
+        "junit:target/report/cucumber.xml"
     },
     glue = {"io.github.santiago120600.stepDefinitions"},
     tags = "@AddBook"

@@ -1,0 +1,32 @@
+services:
+  mountebank:
+    image: andyrbell/mountebank:2.7.0
+    container_name: mountebank
+    ports:
+      - "2525:2525"  # Mountebank management port
+      - "5555:5555"  # Mock service port
+    volumes:
+      - ./virtualServer/imposter.json:/imposter.json
+    command: mb --configfile /imposter.json
+  mitmproxy:
+    image: mitmproxy/mitmproxy:12.1.1
+    container_name: mitmproxy
+    ports:
+      - "8866:8866"  # Proxy port
+      - "8081:8081"  # Web interface port
+    command: mitmweb --listen-host 0.0.0.0 --listen-port 8866  --web-host 0.0.0.0 --web-port 8081 --set web_password=${MITMPROXY_WEB_PASSWORD}
+    env_file:
+      - .env
+  restassured:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: restassured
+    environment:
+      - TEST_RUNNER=io.github.santiago120600.runners.BookTestRunner
+      - ENV=mock
+    volumes:
+      - ./target:/app/target
+    depends_on:
+      - mountebank
+      - mitmproxy
