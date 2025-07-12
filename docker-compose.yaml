@@ -23,8 +23,8 @@ services:
       dockerfile: Dockerfile
     container_name: restassured
     environment:
-      - TEST_RUNNER=io.github.santiago120600.runners.BookTestRunner
-      - ENV=mock
+      - TEST_RUNNER=${TEST_RUNNER}
+      - ENV=${ENVIRONMENT}
     volumes:
       - ./target:/app/target
     depends_on:

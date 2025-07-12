@@ -1,0 +1,44 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer"
+        },
+        "book_name": {
+            "type": "string"
+        },
+        "message": {
+            "type": "string"
+        },
+        "isbn": {
+            "type": "string"
+        },
+        "aisle": {
+            "type": "integer"
+        },
+        "author": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id",
+                "name"
+            ]
+        }
+    },
+    "required": [
+        "id",
+        "book_name",
+        "message",
+        "isbn",
+        "aisle",
+        "author"
+    ]
+}

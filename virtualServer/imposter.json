@@ -11,6 +11,7 @@
                         "statusCode": 201,
                         "body": {
                             "id": 1,
+                            "book_name": "The Old Man and the Sea",
                             "message": "Book successfully added",
                             "isbn": "9781476787855",
                             "aisle": 1,

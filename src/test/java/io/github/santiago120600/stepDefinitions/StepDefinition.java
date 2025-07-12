@@ -2,9 +2,13 @@ package io.github.santiago120600.stepDefinitions;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.util.Map;
+
+import static org.hamcrest.Matchers.*;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
@@ -50,7 +54,22 @@ public class StepDefinition {
     @Then("the response should contain the created book details including:")
     public void the_response_should_contain_the_created_book_details_including(
             DataTable dataTable) {
-        System.out.println("Expected book details: " + dataTable);
+        Map<String, String> bookData = dataTable.asMaps().get(0);
+        Book book = response.as(Book.class);
+        assertEquals(bookData.get("isbn"), book.getIsbn());
+        assertEquals(bookData.get("book_name"), book.getBook_name());
+        assertEquals(bookData.get("authorId"), book.getAuthor().getId().toString());
+        assertEquals("Book successfully added",book.getMessage());
+        assertEquals(bookData.get("aisle"), book.getAisle().toString());
+        assertNotNull(book.getId());
+        assertNotNull(book.getAuthor().getName());
+    }
+
+    @Then("validate the response against {string} JSON schema")
+    public void validate_the_response_against_the_json_schema(String schemaFile) {
+        response.then()
+                .assertThat()
+                .body(matchesJsonSchemaInClasspath("schemas/"+ schemaFile + ".json"));
     }
 
     @Given("a book with ID {string} exists in the system")
