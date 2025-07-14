@@ -36,19 +36,18 @@ Feature: Book CRUD Operations
 
   @UpdateBook
   Scenario Outline: Successfully update an existing book
-    Given a book with ID "<id>" exists in the system
-    And I have the following valid book data:
+    Given I have the following valid book data:
       | book_name   | isbn   | aisle   | authorId   |
       | <book_name> | <isbn> | <aisle> | <authorId> |
     When I send a "PUT" request to "/book/<id>"
     Then the response status code should be 200
-    And the response should contain the created book details including:
+    And the response should contain the book details including:
       | book_name   | isbn   | aisle   | authorId   |
       | <book_name> | <isbn> | <aisle> | <authorId> |
 
     Examples:
       | id | book_name               | isbn          | aisle | authorId |
-      |  1 | The Old Man and the Sea | 9781476787855 |     1 |        1 |
+      |  1 | The Old Man and the Sea | 9781476787855 |     2 |        1 |
 
   @DeleteBook
   Scenario Outline: Successfully delete an existing book

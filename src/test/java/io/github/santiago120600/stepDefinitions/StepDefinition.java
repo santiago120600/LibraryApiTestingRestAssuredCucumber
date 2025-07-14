@@ -69,9 +69,9 @@ public class StepDefinition {
         }else if(this.httpMethod.equalsIgnoreCase("GET")){
             assertEquals("OK",book.getMessage());
         }else if(this.httpMethod.equalsIgnoreCase("PUT")){
-            assertEquals("Book successfully updated",book.getMessage());
+            assertEquals("Book updated successfully",book.getMessage());
         }else if(this.httpMethod.equalsIgnoreCase("DELETE")){
-            assertEquals("Book successfully deleted",book.getMessage());
+            assertEquals("Book deleted successfully",book.getMessage());
         }
     }
 
