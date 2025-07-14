@@ -23,6 +23,7 @@ public class StepDefinition {
 
     RequestSpecification reqSpec;
     Response response;
+    String httpMethod;
 
     @Given("I have the following valid book data:")
     public void i_have_the_following_valid_book_data(DataTable dataTable) throws IOException {
@@ -33,6 +34,7 @@ public class StepDefinition {
 
     @When("I send a {string} request to {string}")
     public void i_send_a_request_to(String httpMethod, String endpoint) {
+        this.httpMethod = httpMethod;
         if (httpMethod.equalsIgnoreCase("POST")) {
             response = reqSpec.when().post(endpoint);
         } else if (httpMethod.equalsIgnoreCase("GET")) {
@@ -51,7 +53,7 @@ public class StepDefinition {
         assertEquals(statusCode, (Integer) response.getStatusCode());
     }
 
-    @Then("the response should contain the created book details including:")
+    @Then("the response should contain the book details including:")
     public void the_response_should_contain_the_created_book_details_including(
             DataTable dataTable) {
         Map<String, String> bookData = dataTable.asMaps().get(0);
@@ -59,10 +61,18 @@ public class StepDefinition {
         assertEquals(bookData.get("isbn"), book.getIsbn());
         assertEquals(bookData.get("book_name"), book.getBook_name());
         assertEquals(bookData.get("authorId"), book.getAuthor().getId().toString());
-        assertEquals("Book successfully added",book.getMessage());
         assertEquals(bookData.get("aisle"), book.getAisle().toString());
         assertNotNull(book.getId());
         assertNotNull(book.getAuthor().getName());
+        if(this.httpMethod.equalsIgnoreCase("POST")){
+            assertEquals("Book successfully added",book.getMessage());
+        }else if(this.httpMethod.equalsIgnoreCase("GET")){
+            assertEquals("OK",book.getMessage());
+        }else if(this.httpMethod.equalsIgnoreCase("PUT")){
+            assertEquals("Book successfully updated",book.getMessage());
+        }else if(this.httpMethod.equalsIgnoreCase("DELETE")){
+            assertEquals("Book successfully deleted",book.getMessage());
+        }
     }
 
     @Then("validate the response against {string} JSON schema")
@@ -72,14 +82,9 @@ public class StepDefinition {
                 .body(matchesJsonSchemaInClasspath("schemas/"+ schemaFile + ".json"));
     }
 
-    @Given("a book with ID {string} exists in the system")
-    public void a_book_with_id_exists_in_the_system(String string) {
-        System.out.println("Book with ID " + string + " exists in the system");
-    }
-
-    @Given("a book with ID {string} exists in the system with details:")
-    public void a_book_with_id_exists_in_the_system_with_details(String string, DataTable dataTable) {
-        System.out.println("Book with ID " + string + " exists in the system with details: " + dataTable);
+    @Given("a book with ID {int} exists in the system")
+    public void a_book_with_id_exists_in_the_system(Integer id) {
+        reqSpec = given(Hooks.spec);
     }
 
 }

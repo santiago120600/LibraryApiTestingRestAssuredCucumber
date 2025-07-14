@@ -56,7 +56,7 @@
                             "aisle": 2,
                             "author": {
                                 "id": 1,
-                                "author_name": "Ernest Hemingway"
+                                "name": "Ernest Hemingway"
                             }
                         },
                         "headers": {
@@ -113,12 +113,13 @@
                         "statusCode": 200,
                         "body": {
                             "book_name": "The Old Man and the Sea",
+                            "message": "OK",
                             "id": 1,
                             "isbn": "9781476787855",
                             "aisle": 2,
                             "author": {
                                 "id": 1,
-                                "author_name": "Ernest Hemingway"
+                                "name": "Ernest Hemingway"
                             }
                         },
                         "headers": {
