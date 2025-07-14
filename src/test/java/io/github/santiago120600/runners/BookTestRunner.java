@@ -15,7 +15,7 @@ import org.junit.runner.RunWith;
         "junit:target/report/cucumber.xml"
     },
     glue = {"io.github.santiago120600.stepDefinitions"},
-    tags = "@UpdateBook"
+    tags = "@DeleteBook"
 )
 public class BookTestRunner {
 }

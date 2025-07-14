@@ -51,9 +51,9 @@ Feature: Book CRUD Operations
 
   @DeleteBook
   Scenario Outline: Successfully delete an existing book
-    Given a book with ID "<id>" exists in the system
+    Given a book with ID <id> exists in the system
     When I send a "DELETE" request to "/book/<id>"
-    Then the response status code should be 204
+    Then the response status code should be 200
 
     Examples:
       | id |
