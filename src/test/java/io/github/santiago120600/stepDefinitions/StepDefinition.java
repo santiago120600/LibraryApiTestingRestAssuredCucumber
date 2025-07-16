@@ -1,21 +1,22 @@
 package io.github.santiago120600.stepDefinitions;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.IOException;
 import java.util.Map;
 
-import static org.hamcrest.Matchers.*;
-import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
-
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.github.santiago120600.enums.HttpMethod;
 import io.github.santiago120600.models.Book;
 import io.github.santiago120600.resources.BookDataBuilder;
+import io.github.santiago120600.resources.Const;
+import io.github.santiago120600.resources.RequestHelper;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
@@ -23,7 +24,7 @@ public class StepDefinition {
 
     RequestSpecification reqSpec;
     Response response;
-    String httpMethod;
+    HttpMethod httpMethod;
 
     @Given("I have the following valid book data:")
     public void i_have_the_following_valid_book_data(DataTable dataTable) throws IOException {
@@ -33,19 +34,9 @@ public class StepDefinition {
     }
 
     @When("I send a {string} request to {string}")
-    public void i_send_a_request_to(String httpMethod, String endpoint) {
-        this.httpMethod = httpMethod;
-        if (httpMethod.equalsIgnoreCase("POST")) {
-            response = reqSpec.when().post(endpoint);
-        } else if (httpMethod.equalsIgnoreCase("GET")) {
-            response = reqSpec.when().get(endpoint);
-        } else if (httpMethod.equalsIgnoreCase("DELETE")) {
-            response = reqSpec.when().delete(endpoint);
-        }else if (httpMethod.equalsIgnoreCase("PUT")) {
-            response = reqSpec.when().put(endpoint);
-        } else {
-            throw new IllegalArgumentException("Unsupported HTTP method: " + httpMethod);
-        }
+    public void i_send_a_request_to(String method, String endpoint) {
+        httpMethod = HttpMethod.valueOf(method.toUpperCase());
+        response = RequestHelper.executeRequest(httpMethod, endpoint, reqSpec);
     }
 
     @Then("the response status code should be {int}")
@@ -58,20 +49,26 @@ public class StepDefinition {
             DataTable dataTable) {
         Map<String, String> bookData = dataTable.asMaps().get(0);
         Book book = response.as(Book.class);
-        assertEquals(bookData.get("isbn"), book.getIsbn());
-        assertEquals(bookData.get("book_name"), book.getBook_name());
-        assertEquals(bookData.get("authorId"), book.getAuthor().getId().toString());
-        assertEquals(bookData.get("aisle"), book.getAisle().toString());
+        assertEquals(bookData.get(Const.ISBN), book.getIsbn());
+        assertEquals(bookData.get(Const.BOOK_NAME), book.getTitle());
+        assertEquals(bookData.get(Const.AUTHOR_ID), book.getAuthor().getId().toString());
+        assertEquals(bookData.get(Const.AISLE), book.getAisleNumber().toString());
         assertNotNull(book.getId());
         assertNotNull(book.getAuthor().getName());
-        if(this.httpMethod.equalsIgnoreCase("POST")){
-            assertEquals("Book successfully added",book.getMessage());
-        }else if(this.httpMethod.equalsIgnoreCase("GET")){
-            assertEquals("OK",book.getMessage());
-        }else if(this.httpMethod.equalsIgnoreCase("PUT")){
-            assertEquals("Book updated successfully",book.getMessage());
-        }else if(this.httpMethod.equalsIgnoreCase("DELETE")){
-            assertEquals("Book deleted successfully",book.getMessage());
+        switch (httpMethod) {
+            case POST:
+                assertEquals("Book added successfully", book.getMessage());
+                break;
+                case GET: 
+                assertEquals("OK", book.getMessage());
+                break;
+                case PUT: 
+                assertEquals("Book updated successfully", book.getMessage()); 
+                break;
+                case DELETE: 
+                assertEquals("Book deleted successfully", book.getMessage());
+                break;
+            default: throw new IllegalArgumentException("Unsupported HTTP method: " + httpMethod);
         }
     }
 

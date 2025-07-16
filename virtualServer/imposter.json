@@ -11,10 +11,10 @@
                         "statusCode": 201,
                         "body": {
                             "id": 1,
-                            "book_name": "The Old Man and the Sea",
-                            "message": "Book successfully added",
+                            "title": "The Old Man and the Sea",
+                            "message": "Book added successfully",
                             "isbn": "9781476787855",
-                            "aisle": 1,
+                            "aisle_number": 1,
                             "author": {
                                 "id": 1,
                                 "name": "Ernest Hemingway"
@@ -35,10 +35,10 @@
                             "Content-Type": "application/json"
                         },
                         "body": {
-                            "book_name": "The Old Man and the Sea",
-                            "aisle": 1,
+                            "title": "The Old Man and the Sea",
+                            "aisle_number": 1,
                             "isbn": "9781476787855",
-                            "authorId": 1
+                            "author_id": 1
                         }
                     }
                 }
@@ -50,11 +50,11 @@
                     "is": {
                         "statusCode": 200,
                         "body": {
-                            "book_name": "The Old Man and the Sea",
+                            "title": "The Old Man and the Sea",
                             "message": "Book updated successfully",
                             "id": 1,
                             "isbn": "9781476787855",
-                            "aisle": 2,
+                            "aisle_number": 2,
                             "author": {
                                 "id": 1,
                                 "name": "Ernest Hemingway"
@@ -75,10 +75,10 @@
                             "Content-Type": "application/json"
                         },
                         "body": {
-                            "book_name": "The Old Man and the Sea",
-                            "aisle": 2,
+                            "title": "The Old Man and the Sea",
+                            "aisle_number": 2,
                             "isbn": "9781476787855",
-                            "authorId": 1
+                            "author_id": 1
                         }
                     }
                 }
@@ -113,11 +113,11 @@
                     "is": {
                         "statusCode": 200,
                         "body": {
-                            "book_name": "The Old Man and the Sea",
+                            "title": "The Old Man and the Sea",
                             "message": "OK",
                             "id": 1,
                             "isbn": "9781476787855",
-                            "aisle": 2,
+                            "aisle_number": 2,
                             "author": {
                                 "id": 1,
                                 "name": "Ernest Hemingway"

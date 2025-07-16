@@ -5,6 +5,6 @@ import lombok.Data;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
-public class BaseModel{
+public abstract class BaseModel{
     String message;    
 }

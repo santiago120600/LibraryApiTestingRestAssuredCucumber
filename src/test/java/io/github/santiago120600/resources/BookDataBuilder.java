@@ -5,13 +5,14 @@ import java.util.Map;
 import io.github.santiago120600.models.Book;
 
 public class BookDataBuilder {
+    
 
     public static Book addBookPayload(Map<String, String> bookData) {
         Book book = new Book();
-        book.setBook_name(bookData.get("book_name"));
-        book.setIsbn(bookData.get("isbn"));
-        book.setAisle(Integer.parseInt(bookData.get("aisle")));
-        book.setAuthorId(Integer.parseInt(bookData.get("authorId")));
+        book.setTitle(bookData.get(Const.BOOK_NAME));
+        book.setIsbn(bookData.get(Const.ISBN));
+        book.setAisleNumber(Integer.parseInt(bookData.get(Const.AISLE)));
+        book.setAuthorId(Integer.parseInt(bookData.get(Const.AUTHOR_ID)));
         return book;
     }
 }

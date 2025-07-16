@@ -5,7 +5,7 @@
         "id": {
             "type": "integer"
         },
-        "book_name": {
+        "title": {
             "type": "string"
         },
         "message": {
@@ -14,7 +14,7 @@
         "isbn": {
             "type": "string"
         },
-        "aisle": {
+        "aisle_number": {
             "type": "integer"
         },
         "author": {
@@ -35,10 +35,10 @@
     },
     "required": [
         "id",
-        "book_name",
+        "title",
         "message",
         "isbn",
-        "aisle",
+        "aisle_number",
         "author"
     ]
 }
