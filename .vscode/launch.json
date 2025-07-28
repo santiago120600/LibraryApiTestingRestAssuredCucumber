@@ -16,6 +16,8 @@
             ],
             "vmArgs": [
                 "-Denv=prod",
+                "-Dconfig=local",
+                "-Dproxy=false"
             ]
         }
     ]

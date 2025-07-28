@@ -32,7 +32,10 @@ public class Hooks {
 
     @Before
     public void setup() throws IOException {
-        RestAssured.proxy(Utils.getGlobalValue("proxy.base.url"));
+        String proxy = System.getProperty("proxy", "true");
+        if (Boolean.parseBoolean(proxy)) {
+            RestAssured.proxy(Utils.getGlobalValue("proxy.base.url"));
+        }
         spec = new RequestSpecBuilder()
                 .setBaseUri(baseUrl)
                 .setContentType(ContentType.JSON)

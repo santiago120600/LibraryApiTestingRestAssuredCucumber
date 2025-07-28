@@ -7,7 +7,7 @@ import java.util.Properties;
 public class Utils {
 
     public static String getGlobalValue(String key) throws IOException {
-        String env = System.getProperty("config", "local");
+        String env = System.getProperty("config", "docker");
         String propFile = env.equals("local") ? "global-local.properties" : "global.properties";
         Properties properties = new Properties();
         try (InputStream inputStream = Utils.class.getClassLoader().getResourceAsStream(propFile)) {
