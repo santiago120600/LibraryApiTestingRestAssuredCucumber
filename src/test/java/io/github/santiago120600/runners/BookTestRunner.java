@@ -8,11 +8,9 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
     features = "src/test/java/io/github/santiago120600/features",
     plugin = {
+        "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
         "pretty",
         "summary",
-        "html:target/report/cucumber-reports.html",
-        "json:target/report/cucumber.json",
-        "junit:target/report/cucumber.xml"
     },
     glue = {"io.github.santiago120600.stepDefinitions"},
     tags = "@BookRegression"
