@@ -1,0 +1,22 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Run Test",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "mainClass": "org.junit.runner.JUnitCore",
+            "args": [
+                "io.github.santiago120600.runners.BookTestRunner"
+            ],
+             "classPaths": [
+                "$Test"
+            ],
+            "vmArgs": [
+                "-Denv=prod",
+            ]
+        }
+    ]
+}

@@ -1,0 +1,19 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "mvn install",
+            "type": "shell",
+            "command": "mvn",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "args": [
+                "clean",
+                "install",
+                "-DskipTests"
+            ],
+            "problemMatcher": []
+        },
+    ]
+}
