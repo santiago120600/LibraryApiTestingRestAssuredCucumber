@@ -13,7 +13,7 @@ import org.junit.runner.RunWith;
         "summary",
     },
     glue = {"io.github.santiago120600.stepDefinitions"},
-    tags = "@BookRegression"
+    tags = "@GetBookById"
 )
 public class BookTestRunner {
 }

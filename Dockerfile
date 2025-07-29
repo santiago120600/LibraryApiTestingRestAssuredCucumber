@@ -8,7 +8,8 @@ RUN mvn dependency:go-offline -B
 
 COPY src ./src
 
-ARG TEST_RUNNER
-ARG ENV
+ENV TEST_RUNNER=
+ENV ENV=prod
+ENV PROXY_FLAG=true
 
-ENTRYPOINT ["mvn", "test", "-Dtest=${TEST_RUNNER}", "-Denv=${ENV}"]
+ENTRYPOINT ["sh", "-c", "mvn test -Dtest=$TEST_RUNNER -Denv=$ENV -Dconfig=docker -Dproxy=$PROXY_FLAG"]

@@ -44,6 +44,7 @@ Feature: Book CRUD Operations
     And the response should contain the book details including:
       | book_name   | isbn   | aisle   | authorId   |
       | <book_name> | <isbn> | <aisle> | <authorId> |
+    And validate the response against "book-success-schema" JSON schema
 
     Examples:
       | id | book_name               | isbn          | aisle | authorId |
