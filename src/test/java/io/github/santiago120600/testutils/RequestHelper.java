@@ -1,4 +1,4 @@
-package io.github.santiago120600.resources;
+package io.github.santiago120600.testutils;
 
 import io.github.santiago120600.enums.HttpMethod;
 import io.restassured.response.Response;

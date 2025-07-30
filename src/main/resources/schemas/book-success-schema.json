@@ -2,43 +2,59 @@
     "$schema": "http://json-schema.org/draft-04/schema#",
     "type": "object",
     "properties": {
-        "id": {
-            "type": "integer"
-        },
-        "title": {
+        "status": {
             "type": "string"
         },
         "message": {
             "type": "string"
         },
-        "isbn": {
-            "type": "string"
-        },
-        "aisle_number": {
-            "type": "integer"
-        },
-        "author": {
+        "data": {
             "type": "object",
             "properties": {
                 "id": {
                     "type": "integer"
                 },
-                "name": {
+                "title": {
                     "type": "string"
+                },
+                "isbn": {
+                    "type": "string"
+                },
+                "aisle_number": {
+                    "type": "integer"
+                },
+                "author": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "integer"
+                        },
+                        "first_name": {
+                            "type": "string"
+                        },
+                        "last_name": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "id",
+                        "first_name",
+                        "last_name"
+                    ]
                 }
             },
             "required": [
                 "id",
-                "name"
+                "title",
+                "isbn",
+                "aisle_number",
+                "author"
             ]
         }
     },
     "required": [
-        "id",
-        "title",
+        "status",
         "message",
-        "isbn",
-        "aisle_number",
-        "author"
+        "data"
     ]
 }

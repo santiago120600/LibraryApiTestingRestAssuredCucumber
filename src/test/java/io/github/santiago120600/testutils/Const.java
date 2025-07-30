@@ -1,4 +1,4 @@
-package io.github.santiago120600.resources;
+package io.github.santiago120600.testutils;
 
 public class Const {
     public static final String BOOK_NAME = "book_name";

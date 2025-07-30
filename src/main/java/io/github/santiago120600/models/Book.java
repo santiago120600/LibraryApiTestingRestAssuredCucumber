@@ -7,7 +7,7 @@ import lombok.Data;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
-public class Book extends BaseModel{
+public class Book{
    String title;
    Integer id; 
    @JsonProperty("aisle_number")

@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import io.cucumber.java.Before;
 import io.cucumber.java.BeforeAll;
-import io.github.santiago120600.resources.Utils;
+import io.github.santiago120600.testutils.Utils;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;

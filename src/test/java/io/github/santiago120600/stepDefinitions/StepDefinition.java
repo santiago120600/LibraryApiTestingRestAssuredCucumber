@@ -14,9 +14,11 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.github.santiago120600.enums.HttpMethod;
 import io.github.santiago120600.models.Book;
-import io.github.santiago120600.resources.BookDataBuilder;
-import io.github.santiago120600.resources.Const;
-import io.github.santiago120600.resources.RequestHelper;
+import io.github.santiago120600.models.ResponseWrapper;
+import io.github.santiago120600.testutils.BookDataBuilder;
+import io.github.santiago120600.testutils.Const;
+import io.github.santiago120600.testutils.RequestHelper;
+import io.restassured.common.mapper.TypeRef;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
@@ -48,25 +50,27 @@ public class StepDefinition {
     public void the_response_should_contain_the_created_book_details_including(
             DataTable dataTable) {
         Map<String, String> bookData = dataTable.asMaps().get(0);
-        Book book = response.as(Book.class);
+        ResponseWrapper<Book> wrappedResponse = response.as(new TypeRef<ResponseWrapper<Book>>() {});
+        Book book = wrappedResponse.getData();
         assertEquals(bookData.get(Const.ISBN), book.getIsbn());
         assertEquals(bookData.get(Const.BOOK_NAME), book.getTitle());
         assertEquals(bookData.get(Const.AUTHOR_ID), book.getAuthor().getId().toString());
         assertEquals(bookData.get(Const.AISLE), book.getAisleNumber().toString());
         assertNotNull(book.getId());
-        assertNotNull(book.getAuthor().getName());
+        assertNotNull(book.getAuthor().getFirstName());
+        assertNotNull(book.getAuthor().getLastName());
         switch (httpMethod) {
             case POST:
-                assertEquals("Book added successfully", book.getMessage());
+                assertEquals("Book added successfully", wrappedResponse.getMessage());
                 break;
                 case GET: 
-                assertEquals("OK", book.getMessage());
+                assertEquals("OK", wrappedResponse.getMessage());
                 break;
                 case PUT: 
-                assertEquals("Book updated successfully", book.getMessage()); 
+                assertEquals("Book updated successfully", wrappedResponse.getMessage()); 
                 break;
                 case DELETE: 
-                assertEquals("Book deleted successfully", book.getMessage());
+                assertEquals("Book deleted successfully", wrappedResponse.getMessage());
                 break;
             default: throw new IllegalArgumentException("Unsupported HTTP method: " + httpMethod);
         }

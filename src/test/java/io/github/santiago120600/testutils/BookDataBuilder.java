@@ -1,4 +1,4 @@
-package io.github.santiago120600.resources;
+package io.github.santiago120600.testutils;
 
 import java.util.Map;
 
