@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import io.cucumber.java.Before;
 import io.cucumber.java.BeforeAll;
 import io.github.santiago120600.testutils.Utils;
+import io.github.santiago120600.testutils.ExtentRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.RequestLoggingFilter;
@@ -53,6 +54,7 @@ public class Hooks {
         spec = new RequestSpecBuilder()
                 .setBaseUri(baseUrl)
                 .setContentType(ContentType.JSON)
+                .addFilter(new ExtentRestAssured())
                 .build();
     }
 }
