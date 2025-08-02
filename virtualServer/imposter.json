@@ -14,11 +14,11 @@
                             "message": "Book added successfully",
                             "data": {
                                 "id": 1,
-                                "title": "The Old Man and the Sea",
-                                "isbn": "9781476787855",
-                                "aisle_number": 1,
+                                "title": "${title}",
+                                "isbn": "${isbn}",
+                                "aisle_number": "${aisle_number}",
                                 "author": {
-                                    "id": 1,
+                                    "id": "${author_id}",
                                     "first_name": "Ernest",
                                     "last_name": "Hemingway"
                                 }
@@ -27,7 +27,52 @@
                         "headers": {
                             "Content-Type": "application/json"
                         }
-                    }
+                    },
+                    "behaviors": [
+                        {
+                            "copy": {
+                                "from": "body",
+                                "into": "${title}",
+                                "using": {
+                                    "method": "jsonpath",
+                                    "selector": "$.title"
+                                }
+                            }
+                        },
+                        {
+                            "copy": {
+                                "from": "body",
+                                "into": "${isbn}",
+                                "using": {
+                                    "method": "jsonpath",
+                                    "selector": "$.isbn"
+                                }
+                            }
+                        },
+                        {
+                            "copy": {
+                                "from": "body",
+                                "into": "${aisle_number}",
+                                "using": {
+                                    "method": "jsonpath",
+                                    "selector": "$.aisle_number"
+                                }
+                            }
+                        },
+                        {
+                            "copy": {
+                                "from": "body",
+                                "into": "${author_id}",
+                                "using": {
+                                    "method": "jsonpath",
+                                    "selector": "$.author_id"
+                                }
+                            }
+                        },
+                        {
+                            "shellTransform": "node replace_string.js"
+                        }
+                    ]
                 }
             ],
             "predicates": [
@@ -37,12 +82,14 @@
                         "path": "/book",
                         "headers": {
                             "Content-Type": "application/json"
-                        },
+                        }
+                    },
+                    "exists": {
                         "body": {
-                            "title": "The Old Man and the Sea",
-                            "aisle_number": 1,
-                            "isbn": "9781476787855",
-                            "author_id": 1
+                            "title": true,
+                            "isbn": true,
+                            "aisle_number": true,
+                            "author_id": true
                         }
                     }
                 }
@@ -58,11 +105,11 @@
                             "message": "Book updated successfully",
                             "data": {
                                 "id": 1,
-                                "title": "The Old Man and the Sea",
-                                "isbn": "9781476787855",
-                                "aisle_number": 2,
+                                "title": "${title}",
+                                "isbn": "${isbn}",
+                                "aisle_number": "${aisle_number}",
                                 "author": {
-                                    "id": 1,
+                                    "id": "${author_id}",
                                     "first_name": "Ernest",
                                     "last_name": "Hemingway"
                                 }
@@ -71,14 +118,59 @@
                         "headers": {
                             "Content-Type": "application/json"
                         }
-                    }
+                    },
+                    "behaviors": [
+                        {
+                            "copy": {
+                                "from": "body",
+                                "into": "${title}",
+                                "using": {
+                                    "method": "jsonpath",
+                                    "selector": "$.title"
+                                }
+                            }
+                        },
+                        {
+                            "copy": {
+                                "from": "body",
+                                "into": "${isbn}",
+                                "using": {
+                                    "method": "jsonpath",
+                                    "selector": "$.isbn"
+                                }
+                            }
+                        },
+                        {
+                            "copy": {
+                                "from": "body",
+                                "into": "${aisle_number}",
+                                "using": {
+                                    "method": "jsonpath",
+                                    "selector": "$.aisle_number"
+                                }
+                            }
+                        },
+                        {
+                            "copy": {
+                                "from": "body",
+                                "into": "${author_id}",
+                                "using": {
+                                    "method": "jsonpath",
+                                    "selector": "$.author_id"
+                                }
+                            }
+                        },
+                        {
+                            "shellTransform": "node replace_string.js"
+                        }
+                    ]
                 }
             ],
             "predicates": [
                 {
-                    "equals": {
+                    "matches": {
                         "method": "PUT",
-                        "path": "/book/1",
+                        "path": "/book/\\d+",
                         "headers": {
                             "Content-Type": "application/json"
                         },
@@ -124,7 +216,7 @@
                         "statusCode": 200,
                         "body": {
                             "status": "success",
-                            "message": "OK",
+                            "message": "Book retrieved successfully",
                             "data": {
                                 "id": 1,
                                 "title": "The Old Man and the Sea",
@@ -162,14 +254,36 @@
                             "message": "Author added successfully",
                             "data": {
                                 "id": 1,
-                                "first_name": "Ernest",
-                                "last_name": "Hemingway"
+                                "first_name": "${first_name}",
+                                "last_name": "${last_name}"
                             }
                         },
                         "headers": {
                             "Content-Type": "application/json"
                         }
-                    }
+                    },
+                    "behaviors": [
+                        {
+                            "copy": {
+                                "from": "body",
+                                "into": "${first_name}",
+                                "using": {
+                                    "method": "jsonpath",
+                                    "selector": "$.first_name"
+                                }
+                            }
+                        },
+                        {
+                            "copy": {
+                                "from": "body",
+                                "into": "${last_name}",
+                                "using": {
+                                    "method": "jsonpath",
+                                    "selector": "$.last_name"
+                                }
+                            }
+                        }
+                    ]
                 }
             ],
             "predicates": [
@@ -179,10 +293,12 @@
                         "path": "/author",
                         "headers": {
                             "Content-Type": "application/json"
-                        },
+                        }
+                    },
+                    "exists": {
                         "body": {
-                            "first_name": "Ernest",
-                            "last_name": "Hemingway"
+                            "first_name": true,
+                            "last_name": true
                         }
                     }
                 }
@@ -198,27 +314,54 @@
                             "message": "Author updated successfully",
                             "data": {
                                 "id": 1,
-                                "first_name": "Ernest",
-                                "last_name": "Hemingway"
+                                "first_name": "${first_name}",
+                                "last_name": "${last_name}"
                             }
                         },
                         "headers": {
                             "Content-Type": "application/json"
                         }
-                    }
+                    },
+                    "behaviors": [
+                        {
+                            "copy": {
+                                "from": "body",
+                                "into": "${first_name}",
+                                "using": {
+                                    "method": "jsonpath",
+                                    "selector": "$.first_name"
+                                }
+                            }
+                        },
+                        {
+                            "copy": {
+                                "from": "body",
+                                "into": "${last_name}",
+                                "using": {
+                                    "method": "jsonpath",
+                                    "selector": "$.last_name"
+                                }
+                            }
+                        },
+                        {
+                            "shellTransform": "node replace_string.js"
+                        }
+                    ]
                 }
             ],
             "predicates": [
                 {
-                    "equals": {
+                    "matches": {
                         "method": "PUT",
-                        "path": "/author/1",
+                        "path": "/author/\\d+",
                         "headers": {
                             "Content-Type": "application/json"
-                        },
+                        }
+                    },
+                     "exists": {
                         "body": {
-                            "first_name": "Ernest",
-                            "last_name": "Hemingway"
+                            "first_name": true,
+                            "last_name": true
                         }
                     }
                 }
@@ -244,10 +387,7 @@
                 {
                     "equals": {
                         "method": "DELETE",
-                        "path": "/author/1",
-                        "headers": {
-                            "Content-Type": "application/json"
-                        }
+                        "path": "/author/1"
                     }
                 }
             ]
@@ -259,11 +399,11 @@
                         "statusCode": 200,
                         "body": {
                             "status": "success",
-                            "message": "OK",
+                            "message": "Author retrieved successfully",
                             "data": {
                                 "id": 1,
-                                "first_name": "Ernest",
-                                "last_name": "Hemingway"
+                                "first_name": "Herman",
+                                "last_name": "Melville"
                             }
                         },
                         "headers": {
@@ -276,10 +416,7 @@
                 {
                     "equals": {
                         "method": "GET",
-                        "path": "/author/1",
-                        "headers": {
-                            "Content-Type": "application/json"
-                        }
+                        "path": "/author/1"
                     }
                 }
             ]

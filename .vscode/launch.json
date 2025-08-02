@@ -15,9 +15,10 @@
                 "$Test"
             ],
             "vmArgs": [
-                "-Denv=prod",
+                "-Dtest=io.github.santiago120600.runners.AuthorTestRunner",
+                "-Denv=mock",
                 "-Dconfig=local",
-                "-Dproxy=false"
+                "-Dproxy=false",
             ]
         }
     ]

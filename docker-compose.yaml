@@ -7,7 +7,8 @@ services:
       - "5555:5555"  # Mock service port
     volumes:
       - ./virtualServer/imposter.json:/imposter.json
-    command: mb --configfile /imposter.json
+      - ./virtualServer/replace_string.js:/replace_string.js
+    command: mb --configfile /imposter.json --allowInjection
   mitmproxy:
     image: mitmproxy/mitmproxy:12.1.1
     container_name: mitmproxy

@@ -1,0 +1,100 @@
+{
+    "api": {
+        "endpoints": [
+            {
+                "name": "book",
+                "methods": {
+                    "GET": [
+                        {
+                            "status_code": 200,
+                            "message": "Book retrieved successfully"
+                        },
+                        {
+                            "status_code": 401,
+                            "message": "Unauthorized access"
+                        },
+                        {
+                            "status_code": 404,
+                            "message": "Book not found"
+                        }
+                    ],
+                    "POST": [
+                        {
+                            "status_code": 201,
+                            "message": "Book added successfully"
+                        },
+                        {
+                            "status_code": 400,
+                            "message": "Invalid book data"
+                        }
+                    ],
+                    "PUT": [
+                        {
+                            "status_code": 200,
+                            "message": "Book updated successfully"
+                        },
+                        {
+                            "status_code": 404,
+                            "message": "Book not found"
+                        }
+                    ],
+                    "DELETE": [
+                        {
+                            "status_code": 200,
+                            "message": "Book deleted successfully"
+                        },
+                        {
+                            "status_code": 404,
+                            "message": "Book not found"
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "author",
+                "methods": {
+                    "GET": [
+                        {
+                            "status_code": 200,
+                            "message": "Author retrieved successfully"
+                        },
+                        {
+                            "status_code": 401,
+                            "message": "Unauthorized access"
+                        }
+                    ],
+                       "POST": [
+                        {
+                            "status_code": 201,
+                            "message": "Author added successfully"
+                        },
+                        {
+                            "status_code": 400,
+                            "message": "Invalid author data"
+                        }
+                    ],
+                    "PUT": [
+                        {
+                            "status_code": 200,
+                            "message": "Author updated successfully"
+                        },
+                        {
+                            "status_code": 404,
+                            "message": "Author not found"
+                        }
+                    ],
+                    "DELETE": [
+                        {
+                            "status_code": 200,
+                            "message": "Author deleted successfully"
+                        },
+                        {
+                            "status_code": 404,
+                            "message": "Author not found"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

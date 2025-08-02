@@ -10,6 +10,8 @@ import io.cucumber.java.BeforeAll;
 import io.github.santiago120600.testutils.Utils;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.filter.log.RequestLoggingFilter;
+import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 
@@ -40,6 +42,9 @@ public class Hooks {
 
     @Before
     public void setup() throws IOException {
+        if (System.getProperty("config").equals("local")) {
+            RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
+        }
         String proxy = System.getProperty("proxy", "true");
         logger.info("Proxy configuration - proxy: {}", proxy);
         if (Boolean.parseBoolean(proxy)) {
