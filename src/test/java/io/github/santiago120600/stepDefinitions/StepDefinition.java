@@ -5,8 +5,10 @@ import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInC
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
@@ -18,15 +20,12 @@ import io.github.santiago120600.models.Book;
 import io.github.santiago120600.models.ResponseWrapper;
 import io.github.santiago120600.testutils.AuthorDataBuilder;
 import io.github.santiago120600.testutils.BookDataBuilder;
+import io.github.santiago120600.testutils.Const;
 import io.github.santiago120600.testutils.RequestHelper;
 import io.github.santiago120600.testutils.ResponseValidator;
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class StepDefinition {
 
@@ -94,11 +93,29 @@ public class StepDefinition {
         switch (entity.toLowerCase()) {
             case "author":
                 ResponseWrapper<Author> authorWrappedResponse = response.as(new TypeRef<ResponseWrapper<Author>>() {});
-                ResponseValidator.validateAuthorResponse(authorWrappedResponse, data, httpMethod, this.statusCode);
+                Author expectedAuthor = new Author();
+                expectedAuthor.setFirstName(data.get(Const.AUTHOR_FIRSTNAME));
+                expectedAuthor.setLastName(data.get(Const.AUTHOR_LASTNAME));
+                ResponseValidator.validateAuthorResponse(authorWrappedResponse, expectedAuthor, httpMethod, this.statusCode);
                 break;
             case "book":
                 ResponseWrapper<Book> bookWrappedResponse = response.as(new TypeRef<ResponseWrapper<Book>>() {});
-                ResponseValidator.validateBookResponse(bookWrappedResponse, data, httpMethod, this.statusCode);
+                Book expectedBook = new Book();
+                expectedBook.setTitle(data.get(Const.BOOK_NAME));
+                expectedBook.setIsbn(data.get(Const.ISBN));
+                expectedBook.setAisleNumber(Integer.parseInt(data.get(Const.AISLE)));
+                Author bookAuthor = new Author();
+                if(this.authorId != null){
+                    bookAuthor.setId(this.authorId);
+                    bookAuthor.setFirstName(this.authorPayload.getFirstName());
+                    bookAuthor.setLastName(this.authorPayload.getLastName());
+                } else if(data.containsKey(Const.AUTHOR_ID)){
+                    bookAuthor.setId(Integer.parseInt(data.get(Const.AUTHOR_ID)));
+                    bookAuthor.setFirstName(data.get(Const.AUTHOR_FIRSTNAME));
+                    bookAuthor.setLastName(data.get(Const.AUTHOR_LASTNAME));
+                }
+                expectedBook.setAuthor(bookAuthor);
+                ResponseValidator.validateBookResponse(bookWrappedResponse, expectedBook, httpMethod, this.statusCode);
                 break;
             default:
                 throw new IllegalArgumentException("Invalid option: " + entity);
@@ -168,25 +185,17 @@ public class StepDefinition {
 
     @Then("the response should contain the {string} details")
     public void the_response_should_contain_the_details(String entity) {
-        ObjectMapper mapper = new ObjectMapper();
         switch (entity.toLowerCase()) {
             case "author":
-                Map<String, String> expectedAuthorData = mapper.convertValue(this.authorPayload, Map.class);
-                expectedAuthorData.replaceAll((key, value) -> value != null ? value.toString() : null);
-                logger.info("Expected author data: {}", expectedAuthorData);
                 ResponseWrapper<Author> authorWrappedResponse = response.as(new TypeRef<ResponseWrapper<Author>>() {});
-                ResponseValidator.validateAuthorResponse(authorWrappedResponse, expectedAuthorData, httpMethod, this.statusCode);
+                ResponseValidator.validateAuthorResponse(authorWrappedResponse, this.authorPayload, httpMethod, this.statusCode);
                 break;
             case "book":
-                Map<String, Object> rawBookData = mapper.convertValue(this.bookPayload, Map.class);
-                Map<String, String> expectedBookData = new HashMap<>();
-                rawBookData.forEach((key, value) -> expectedBookData.put(key, value != null ? value.toString() : null));
-                expectedBookData.put("author_first_name", this.authorPayload.getFirstName());
-                expectedBookData.put("author_last_name", this.authorPayload.getLastName());
-                logger.info("Expected book data: {}", expectedBookData);
                 ResponseWrapper<Book> bookWrappedResponse = response.as(new TypeRef<ResponseWrapper<Book>>() {});
-                // convertir la data que viene como Map a wrappedResponse haciendo una instancia de Book
-                ResponseValidator.validateBookResponse(bookWrappedResponse, expectedBookData, httpMethod, this.statusCode);
+                if(this.authorPayload != null && this.authorId != null){
+                    this.bookPayload.setAuthor(authorPayload);
+                }
+                ResponseValidator.validateBookResponse(bookWrappedResponse, this.bookPayload, httpMethod, this.statusCode);
                 break;
             default:
                 throw new IllegalArgumentException("Invalid option: " + entity);

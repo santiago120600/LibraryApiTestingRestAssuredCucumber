@@ -2,7 +2,6 @@ package io.github.santiago120600.testutils;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
 
 import org.assertj.core.api.SoftAssertions;
 import org.slf4j.Logger;
@@ -20,7 +19,7 @@ public class ResponseValidator {
 
     private static final Logger logger = LoggerFactory.getLogger(ResponseValidator.class);
 
-    public static void validateAuthorResponse(ResponseWrapper<Author> wrappedResponse, Map<String, String> expectedData,
+    public static void validateAuthorResponse(ResponseWrapper<Author> wrappedResponse, Author expectedData,
             HttpMethod httpMethod, Integer statusCode) {
         Author author = wrappedResponse.getData();
         SoftAssertions soft = new SoftAssertions();
@@ -31,22 +30,19 @@ public class ResponseValidator {
                 .as("Author ID validation")
                 .isNotNull();
         soft.assertThat(author.getFirstName())
-                .as("Author first name validation: expected <%s> but was <%s>",
-                        expectedData.get(Const.AUTHOR_FIRSTNAME), author.getFirstName())
-                .isEqualTo(expectedData.get(Const.AUTHOR_FIRSTNAME));
+                .as("Author first name validation: expected <%s> but was <%s>", expectedData.getFirstName(), author.getFirstName()).
+                isEqualTo(expectedData.getFirstName());
         soft.assertThat(author.getLastName())
-                .as("Author last name validation: expected <%s> but was <%s>", expectedData.get(Const.AUTHOR_LASTNAME),
+                .as("Author last name validation: expected <%s> but was <%s>", expectedData.getLastName(),
                         author.getLastName())
-                .isEqualTo(expectedData.get(Const.AUTHOR_LASTNAME));
+                .isEqualTo(expectedData.getLastName());
         soft.assertThat(wrappedResponse.getMessage())
                 .as("Response message validation")
                 .isEqualTo(getExpectedMessage(httpMethod, "Author", statusCode));
         soft.assertAll();
     }
 
-    // cambiar los parametros de la funcion a ResponseWrapper<Book> wrappedResponse,
-    // ResponseWrapper<Book> expectedData
-    public static void validateBookResponse(ResponseWrapper<Book> wrappedResponse, Map<String, String> expectedData,
+    public static void validateBookResponse(ResponseWrapper<Book> wrappedResponse, Book expectedData,
             HttpMethod httpMethod, Integer statusCode) {
         Book book = wrappedResponse.getData();
         SoftAssertions soft = new SoftAssertions();
@@ -57,28 +53,28 @@ public class ResponseValidator {
                 .as("Book ID validation")
                 .isNotNull();
         soft.assertThat(book.getTitle())
-                .as("Book title validation: expected <%s> but was <%s>", expectedData.get(Const.BOOK_NAME),
+                .as("Book title validation: expected <%s> but was <%s>", expectedData.getTitle(),
                         book.getTitle())
-                .isEqualTo(expectedData.get(Const.BOOK_NAME));
+                .isEqualTo(expectedData.getTitle());
         soft.assertThat(book.getIsbn())
-                .as("ISBN validation: expected <%s> but was <%s>", expectedData.get(Const.ISBN), book.getIsbn())
-                .isEqualTo(expectedData.get(Const.ISBN));
+                .as("ISBN validation: expected <%s> but was <%s>", expectedData.getIsbn(), book.getIsbn())
+                .isEqualTo(expectedData.getIsbn());
         soft.assertThat(book.getAisleNumber())
-                .as("Aisle number validation: expected <%s> but was <%s>", expectedData.get(Const.AISLE),
+                .as("Aisle number validation: expected <%s> but was <%s>", expectedData.getAisleNumber(),
                         book.getAisleNumber())
-                .isEqualTo(Integer.parseInt(expectedData.get(Const.AISLE)));
+                .isEqualTo(expectedData.getAisleNumber());
         soft.assertThat(book.getAuthor().getId())
-                .as("Author ID validation: expected <%s> but was <%s>", expectedData.get(Const.AUTHOR_ID),
+                .as("Author ID validation: expected <%s> but was <%s>", expectedData.getAuthorId(),
                         book.getAuthor().getId())
-                .isEqualTo(Integer.parseInt(expectedData.get(Const.AUTHOR_ID)));
+                .isEqualTo(expectedData.getAuthorId());
         soft.assertThat(book.getAuthor().getFirstName())
-                .as("Author first name validation: expected <%s> but was <%s>", expectedData.get("author_first_name"),
+                .as("Author first name validation: expected <%s> but was <%s>", expectedData.getAuthor().getFirstName(),
                         book.getAuthor().getFirstName())
-                .isEqualTo(expectedData.get("author_first_name"));
+                .isEqualTo(expectedData.getAuthor().getFirstName());
         soft.assertThat(book.getAuthor().getLastName())
-                .as("Author last name validation: expected <%s> but was <%s>", expectedData.get("author_last_name"),
+                .as("Author last name validation: expected <%s> but was <%s>", expectedData.getAuthor().getLastName(),
                         book.getAuthor().getLastName())
-                .isEqualTo(expectedData.get("author_last_name"));
+                .isEqualTo(expectedData.getAuthor().getLastName());
         soft.assertThat(wrappedResponse.getMessage())
                 .as("Response message validation")
                 .isEqualTo(getExpectedMessage(httpMethod, "Book", statusCode));
