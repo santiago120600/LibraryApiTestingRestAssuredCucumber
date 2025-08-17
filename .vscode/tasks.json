@@ -15,5 +15,32 @@
             ],
             "problemMatcher": []
         },
+        {
+            "label": "docker compose up build",
+            "type": "shell",
+            "command": "docker-compose",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "args": [
+                "up",
+                "--build",
+                "-d"
+            ],
+            "problemMatcher": []
+        },
+         {
+            "label": "docker compose up",
+            "type": "shell",
+            "command": "docker-compose",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "args": [
+                "up",
+                "-d"
+            ],
+            "problemMatcher": []
+        },
     ]
 }

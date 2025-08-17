@@ -9,13 +9,12 @@
             "console": "integratedTerminal",
             "mainClass": "org.junit.runner.JUnitCore",
             "args": [
-                "io.github.santiago120600.runners.BookTestRunner"
+                "io.github.santiago120600.runners.AuthorTestRunner"
             ],
              "classPaths": [
                 "$Test"
             ],
             "vmArgs": [
-                "-Dtest=io.github.santiago120600.runners.AuthorTestRunner",
                 "-Denv=mock",
                 "-Dconfig=local",
                 "-Dproxy=false",

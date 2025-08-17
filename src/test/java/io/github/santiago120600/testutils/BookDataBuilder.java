@@ -26,7 +26,6 @@ public class BookDataBuilder {
         book.setIsbn(faker.code().isbn10());
         
         book.setAisleNumber(faker.number().numberBetween(1, 100));
-        book.setAuthorId(faker.number().numberBetween(1, 10));
         return book;
     }
 }

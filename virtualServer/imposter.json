@@ -79,7 +79,7 @@
                 {
                     "equals": {
                         "method": "POST",
-                        "path": "/book",
+                        "path": "/books",
                         "headers": {
                             "Content-Type": "application/json"
                         }
@@ -170,15 +170,17 @@
                 {
                     "matches": {
                         "method": "PUT",
-                        "path": "/book/\\d+",
+                        "path": "/books/\\d+",
                         "headers": {
                             "Content-Type": "application/json"
-                        },
+                        }
+                    },
+                    "exists": {
                         "body": {
-                            "title": "The Old Man and the Sea",
-                            "aisle_number": 2,
-                            "isbn": "9781476787855",
-                            "author_id": 1
+                            "title": true,
+                            "isbn": true,
+                            "aisle_number": true,
+                            "author_id": true
                         }
                     }
                 }
@@ -204,7 +206,7 @@
                 {
                     "equals": {
                         "method": "DELETE",
-                        "path": "/book/1"
+                        "path": "/books/1"
                     }
                 }
             ]
@@ -239,7 +241,7 @@
                 {
                     "equals": {
                         "method": "GET",
-                        "path": "/book/1"
+                        "path": "/books/1"
                     }
                 }
             ]
@@ -290,7 +292,7 @@
                 {
                     "equals": {
                         "method": "POST",
-                        "path": "/author",
+                        "path": "/authors",
                         "headers": {
                             "Content-Type": "application/json"
                         }
@@ -353,12 +355,12 @@
                 {
                     "matches": {
                         "method": "PUT",
-                        "path": "/author/\\d+",
+                        "path": "/authors/\\d+",
                         "headers": {
                             "Content-Type": "application/json"
                         }
                     },
-                     "exists": {
+                    "exists": {
                         "body": {
                             "first_name": true,
                             "last_name": true
@@ -387,7 +389,7 @@
                 {
                     "equals": {
                         "method": "DELETE",
-                        "path": "/author/1"
+                        "path": "/authors/1"
                     }
                 }
             ]
@@ -416,7 +418,7 @@
                 {
                     "equals": {
                         "method": "GET",
-                        "path": "/author/1"
+                        "path": "/authors/1"
                     }
                 }
             ]
