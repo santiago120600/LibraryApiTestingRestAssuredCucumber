@@ -1,0 +1,37 @@
+name: Run tests
+on:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'src/**'
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout API code
+        uses: actions/checkout@v6
+        with:
+          repository: 'santiago120600/SpringBootLibraryAPI'
+          ref: 'main'
+          path: 'library-api'
+      - name: Checkout test code
+        uses: actions/checkout@v6
+        with:
+          path: 'tests'
+      - name: Build and run API in Docker
+        working-directory: ./library-api
+        run: |
+          docker compose -f docker/dev/docker-compose.yaml up --build -d
+      - name: Build and run tests in Docker
+        working-directory: ./tests
+        run: |
+          docker compose -f docker-compose.yaml up --build --abort-on-container-exit
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-report
+          path: |
+            tests/target/reports
