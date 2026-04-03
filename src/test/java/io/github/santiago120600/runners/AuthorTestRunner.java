@@ -14,7 +14,7 @@ import io.cucumber.junit.CucumberOptions;
         "summary",
     },
     glue = {"io.github.santiago120600.stepDefinitions"},
-    tags = "@AddAuthor"
+    tags = "@AuthorRegression"
 )
 public class AuthorTestRunner {
 }
