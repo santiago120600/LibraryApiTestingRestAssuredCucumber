@@ -34,4 +34,4 @@ Feature: Book CRUD Operations
   Scenario Outline: Successfully delete an existing book
     Given a "book" is created in the system
     When I send a "DELETE" request to "/books/<id>"
-    Then the response status code should be 200
+    Then the response status code should be 204

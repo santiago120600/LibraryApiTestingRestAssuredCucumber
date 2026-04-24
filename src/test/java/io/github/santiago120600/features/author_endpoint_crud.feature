@@ -33,4 +33,4 @@ Feature: Author CRUD Operations
   Scenario Outline: Successfully delete an existing author
     Given a "author" is created in the system
     When I send a "DELETE" request to "/authors/<id>"
-    Then the response status code should be 200
+    Then the response status code should be 204
