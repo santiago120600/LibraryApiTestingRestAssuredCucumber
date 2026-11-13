@@ -45,7 +45,7 @@ public class Hooks {
     @Before
     public void setup() throws IOException {
         RestAssured.defaultParser = Parser.JSON;
-        if (System.getProperty("config").equals("local")) {
+        if ("local".equals(System.getProperty("config"))) {
             RestAssured.filters(new RequestLoggingFilter(), new ResponseLoggingFilter());
         }
         String proxy = System.getProperty("proxy", "true");

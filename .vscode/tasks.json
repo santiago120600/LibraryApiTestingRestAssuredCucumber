@@ -57,5 +57,22 @@
             ],
             "problemMatcher": []
         },
+        {
+            "label": "Run locally",
+            "type": "shell",
+            "command": "mvn",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "args": [
+                "--%",
+                "test",
+                "-Dtest=io.github.santiago120600.runners.ETETestRunner",
+                "-Denv=prod",
+                "-Dproxy=false",
+                "-Dconfig=docker"
+            ],
+            "problemMatcher": []
+        }
     ]
 }

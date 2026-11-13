@@ -56,6 +56,35 @@ mvn test -Dtest="io.github.santiago120600.runners.BookTestRunner" -Denv="mock" -
 
 > **Note:** When running locally, `-Dconfig="local"` must be set. Without it the tests default to `docker` and try to reach Docker service names that aren't resolvable from the host.
 
+#### How the file is selected internally
+
+The selection happens in `Utils.getGlobalValue()` (`src/test/java/io/github/santiago120600/testutils/Utils.java`):
+
+```java
+String env = System.getProperty("config", "docker");
+String propFile = env.equals("local") ? "global-local.properties" : "global.properties";
+Properties properties = new Properties();
+try (InputStream inputStream = Utils.class.getClassLoader().getResourceAsStream(propFile)) {
+    ...
+    properties.load(inputStream);
+}
+return properties.getProperty(key);
+```
+
+The file is read manually off the classpath with `getResourceAsStream()` — there is no Spring involvement. This means:
+
+- `-Dspring.profiles.active=local` has **no effect** here. There is no `@ActiveProfiles`, `@PropertySource`, or Spring Boot config server in play.
+- Any value other than `local` falls through to `global.properties`. There is no validation, so a typo like `-Dconfig="locak"` silently loads the Docker file.
+
+#### `config` vs the `.env` `ENVIRONMENT` variable
+
+These two are independent and should not be confused:
+
+- `-Dconfig` selects **which properties file** is loaded (`global.properties` vs `global-local.properties`), controlling hostnames and logging.
+- `ENVIRONMENT` in `.env` selects **which backend** the tests target (currently `prod`), and is read separately in `Hooks.setEnv()` via the `-Denv` flag described above.
+
+Setting one does not influence the other.
+
 ### `-Dproxy` — Enable/disable the mitmproxy
 
 Controls whether Rest Assured routes test traffic through mitmproxy. Read in `Hooks.setup()` via `System.getProperty("proxy", "true")`:
