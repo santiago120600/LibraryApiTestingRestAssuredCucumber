@@ -16,13 +16,14 @@
             "problemMatcher": []
         },
         {
-            "label": "docker compose up build",
+            "label": "podman compose up build",
             "type": "shell",
-            "command": "docker-compose",
+            "command": "podman",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
             "args": [
+                "compose",
                 "up",
                 "--build",
                 "-d"
@@ -30,15 +31,29 @@
             "problemMatcher": []
         },
          {
-            "label": "docker compose up",
+            "label": "podman compose up",
             "type": "shell",
-            "command": "docker-compose",
+            "command": "podman",
             "options": {
                 "cwd": "${workspaceFolder}"
             },
             "args": [
+                "compose",
                 "up",
                 "-d"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "podman compose down",
+            "type": "shell",
+            "command": "podman",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "args": [
+                "compose",
+                "down"
             ],
             "problemMatcher": []
         },
